@@ -11,7 +11,10 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: wb_parsed_data
+      POSTGRES_DB: db_name
+    # init.sql in .
+    # volumes:
+    #  - ./var/lib/postgresql/data 
 
   cont1:
     build:
@@ -30,3 +33,13 @@ services:
       - "8080:8080"
     depends_on:
       - cont1
+
+ frontend:
+    build:
+      context: ./front-end
+    container_name: front
+    image: front:prod
+    depends_on:
+      - cont2
+    ports:
+      - "3002:3000"
